@@ -1,0 +1,14 @@
+admin_user: hasan
+timezone: America/New_York
+
+base_packages:
+  - curl
+  - git
+  - vim
+  - htop
+  - tmux
+  - python3
+  - python3-apt
+  - ca-certificates
+  - unattended-upgrades
+  - apt-transport-https

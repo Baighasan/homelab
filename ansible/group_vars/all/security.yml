@@ -1,0 +1,5 @@
+ssh_public_keys:
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFIU1PmvidTvIbRemKsfW6Vm5gH2q+Ehh8zmL7oUqx9"
+
+ufw_enabled: true
+fail2ban_enabled: true

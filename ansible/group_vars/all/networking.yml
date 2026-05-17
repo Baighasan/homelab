@@ -1,0 +1,7 @@
+wifi_ssid: "Baig-Guest"
+wifi_interface: "wlp*"
+
+tailscale_tags:
+  - dev
+
+tailscale_accept_dns: true

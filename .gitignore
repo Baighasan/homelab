@@ -1,3 +1,4 @@
 *.zwc
 *.log
 .DS_Store
+.homelab.vault.pass
