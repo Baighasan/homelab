@@ -1,0 +1,10 @@
+security_admin_user: "{{ admin_user | default('') }}"
+security_ssh_public_keys: "{{ ssh_public_keys | default([]) }}"
+
+security_ufw_enabled: "{{ ufw_enabled | default(true) }}"
+security_fail2ban_enabled: "{{ fail2ban_enabled | default(true) }}"
+security_unattended_upgrades_enabled: "{{ unattended_upgrades_enabled | default(true) }}"
+
+# Permit password auth for now
+security_ssh_password_authentication: "yes"
+security_ssh_permit_root_login: "no"

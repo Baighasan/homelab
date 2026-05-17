@@ -51,7 +51,7 @@
 
 - name: Deploy Wi-Fi netplan configuration
   ansible.builtin.template:
-    src: 99-ansible-wifi.yaml
+    src: 99-ansible-wifi.yaml.j2
     dest: "{{ networking_netplan_file }}"
     owner: root
     group: root
@@ -65,6 +65,13 @@
   changed_when: false
   tags: [networking]
 
+- name: Check whether Tailscale has an ip
+  ansible.builtin.command: tailscale ip -4
+  register: tailscale_ip
+  changed_when: false
+  failed_when: false
+  tags: [networking]
+
 - name: Flush handlers so netplan changes apply now
   ansible.builtin.meta: flush_handlers
   tags: [networking]
@@ -76,4 +83,5 @@
       --advertise-tags={{ networking_tailscale_tags | map('regex_replace', '^(.*)$', 'tag:\\1') | join(',') }} \
       --accept-dns={{ networking_tailscale_accept_dns | ternary('true', 'false') }}
   no_log: true
+  when: tailscale_ip.rc != 0
   tags: [networking]

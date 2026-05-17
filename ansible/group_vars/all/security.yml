@@ -3,3 +3,4 @@ ssh_public_keys:
 
 ufw_enabled: true
 fail2ban_enabled: true
+unattended_upgrades_enabled: true
