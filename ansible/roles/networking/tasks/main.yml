@@ -1,0 +1,79 @@
+- name: Validate required networking variables
+  ansible.builtin.assert:
+    that:
+      - networking_wifi_ssid | length > 0
+      - networking_wifi_psk | length > 0
+      - networking_wifi_interface | length > 0
+      - "'*' not in networking_wifi_interface"
+      - networking_tailscale_auth_key | length > 0
+    fail_msg: >
+      Missing or invalid networking vars. Ensure wifi_ssid, wifi_psk, wifi_interface (explicit interface, no wildcard), and tailscale_auth_key are set.
+  tags: [networking]
+
+- name: Ensure networking/tailscale prerequisites are installed
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - netplan.io
+    state: present
+    update_cache: true
+  tags: [networking]
+
+- name: Install Tailscale archive keyring
+  ansible.builtin.get_url:
+    url: https://pkgs.tailscale.com/tailscale-archive-keyring.gpg
+    dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+    mode: "0644"
+  tags: [networking]
+
+- name: Add Tailscale apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu noble main"
+    state: present
+    filename: tailscale
+  tags: [networking]
+
+- name: Install tailscale package
+  ansible.builtin.apt:
+    name: tailscale
+    state: present
+    update_cache: true
+  tags: [networking]
+
+- name: Ensure tailscaled service is enabled and started
+  ansible.builtin.service:
+    name: tailscaled
+    state: started
+    enabled: true
+  tags: [networking]
+
+- name: Deploy Wi-Fi netplan configuration
+  ansible.builtin.template:
+    src: 99-ansible-wifi.yaml
+    dest: "{{ networking_netplan_file }}"
+    owner: root
+    group: root
+    mode: "0600"
+  notify: Apply netplan
+  no_log: true
+  tags: [networking]
+
+- name: Validate generated netplan config
+  ansible.builtin.command: netplan generate
+  changed_when: false
+  tags: [networking]
+
+- name: Flush handlers so netplan changes apply now
+  ansible.builtin.meta: flush_handlers
+  tags: [networking]
+
+- name: Join Tailscale
+  ansible.builtin.command: >
+    tailscale up \
+      --authkey={{ networking_tailscale_auth_key }} \
+      --advertise-tags={{ networking_tailscale_tags | map('regex_replace', '^(.*)$', 'tag:\\1') | join(',') }} \
+      --accept-dns={{ networking_tailscale_accept_dns | ternary('true', 'false') }}
+  no_log: true
+  tags: [networking]

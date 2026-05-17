@@ -1,0 +1,10 @@
+# Managed by Ansible
+network:
+  version: 2
+  renderer: networkd
+  wifis:
+    {{ networking_wifi_interface }}:
+      dhcp4: true
+      access-points:
+        "{{ networking_wifi_ssid }}":
+          password: "{{ networking_wifi_psk }}"

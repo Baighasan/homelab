@@ -1,0 +1,10 @@
+networking_wifi_ssid: "{{ wifi_ssid | default('') }}"
+networking_wifi_psk: "{{ wifi_psk | default('') }}"
+networking_wifi_interface: "{{ wifi_interface | default('') }}"
+
+networking_tailscale_tags: "{{ tailscale_tags | default(['dev']) }}"
+networking_tailscale_accept_dns: "{{ tailscale_accept_dns | default(true) }}"
+networking_tailscale_auth_key: "{{ tailscale_auth_key | default('') }}"
+
+networking_netplan_file: /etc/netplan/99-wifi.yaml
+networking_tailscale_hostname: "{{ inventory_hostname }}"
