@@ -1,0 +1,37 @@
+- name: Ensure base packages are installed
+  ansible.builtin.apt:
+    name: "{{ system_base_packages }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  tags: [system]
+
+- name: Configure HandleLidSwitch
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: "^#?HandleLidSwitch="
+    line: "HandleLidSwitch={{ system_logind_lid_switch }}"
+    create: false
+    backup: false
+  notify: Restart systemd-logind
+  tags: [system]
+
+- name: Configure HandleLidSwitchExternalPower
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: "^#?HandleLidSwitchExternalPower="
+    line: "HandleLidSwitchExternalPower={{ system_logind_lid_switch_external_power }}"
+    create: false
+    backup: false
+  notify: Restart systemd-logind
+  tags: [system]
+
+- name: Configure HandleLidSwitchDocked
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: "^#?HandleLidSwitchDocked="
+    line: "HandleLidSwitchDocked={{ system_logind_lid_switch_docked }}"
+    create: false
+    backup: false
+  notify: Restart systemd-logind
+  tags: [system]

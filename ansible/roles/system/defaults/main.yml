@@ -1,0 +1,8 @@
+# Packages to ensure on every laptop.
+# Defaults to group_vars value, with safe fallback.
+system_base_packages: "{{ base_packages | default([]) }}"
+
+# Lid behavior policy (don't suspend/shutdown on lid close)
+system_logind_lid_switch: "ignore"
+system_logind_lid_switch_external_power: "ignore"
+system_logind_lid_switch_docked: "ignore"
