@@ -24,8 +24,8 @@ rm nvim-linux-x86_64.tar.gz
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # Stow dotfiles
-cd ~/dotfiles
-stow zsh p10k git nvim
+cd ~/homelab/dotfiles
+stow zsh p10k git nvim tmux
 
 # Install tmux plugins headlessly
 tmux new-session -d -s bootstrap
