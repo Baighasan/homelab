@@ -89,6 +89,6 @@
       --authkey={{ networking_tailscale_auth_key }} \
       --advertise-tags=tag:{{ networking_tailscale_tags | join(',tag:') }} \
       --accept-dns={{ networking_tailscale_accept_dns | ternary('true', 'false') }}
-  no_log: true
+  no_log: false
   when: tailscale_ip.rc != 0
   tags: [networking]
