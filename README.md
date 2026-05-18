@@ -25,6 +25,10 @@ Roles:
 - `networking` - Wi-Fi netplan + Tailscale join
 - `security` - SSH keys, UFW, fail2ban, unattended upgrades
 
+Vault:
+- Ensure vault password is located in file at ansible/.homelab.vault.password
+- This is automatically searched for when a playbook is run
+
 ### Fleet diagram
 
 ```text
@@ -63,27 +67,26 @@ Bootstrap one machine (first run, typically over temporary Ethernet):
 ansible-playbook ansible/playbooks/bootstrap.yml \
   -l <host> \
   -e ansible_host=<temporary-ip> \
-  --ask-vault-pass
 ```
 
 Converge all machines:
 ```bash
-ansible-playbook ansible/playbooks/site.yml --ask-vault-pass
+ansible-playbook ansible/playbooks/site.yml
 ```
 
 Run only one role:
 ```bash
-ansible-playbook ansible/playbooks/site.yml --tags networking --ask-vault-pass
+ansible-playbook ansible/playbooks/site.yml --tags networking
 ```
 
 Lock down SSH password auth (after key login is confirmed):
 ```bash
-ansible-playbook ansible/playbooks/lockdown.yml -l <host> --ask-vault-pass
+ansible-playbook ansible/playbooks/lockdown.yml -l <host>
 ```
 
 Dry run:
 ```bash
-ansible-playbook ansible/playbooks/site.yml --check --diff --ask-vault-pass
+ansible-playbook ansible/playbooks/site.yml --check --diff
 ```
 
 ---
