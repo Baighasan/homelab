@@ -23,9 +23,12 @@ rm nvim-linux-x86_64.tar.gz
 # Install TPM (tmux plugin manager)
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+# Install OpenCode
+curl -fsSL https://opencode.ai/install | bash
+
 # Stow dotfiles into home
 cd ~/homelab/dotfiles
-stow -t ~ zsh p10k git nvim tmux
+stow -t ~ zsh p10k git nvim tmux opencode
 
 # Install tmux plugins headlessly
 tmux new-session -d -s bootstrap
