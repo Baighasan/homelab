@@ -21,18 +21,25 @@
     update_cache: true
   tags: [networking]
 
+- name: Ensure keyrings directory exists
+  ansible.builtin.file:
+    path: /usr/share/keyrings
+    state: directory
+    mode: "0755"
+  tags: [networking]
+
 - name: Install Tailscale archive keyring
   ansible.builtin.get_url:
-    url: https://pkgs.tailscale.com/tailscale-archive-keyring.gpg
+    url: https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg
     dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
     mode: "0644"
   tags: [networking]
 
 - name: Add Tailscale apt repository
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu noble main"
-    state: present
-    filename: tailscale
+  ansible.builtin.get_url:
+    url: https://pkgs.tailscale.com/stable/ubuntu/noble.tailscale-keyring.list
+    dest: /etc/apt/sources.list.d/tailscale.list
+    mode: "0644"
   tags: [networking]
 
 - name: Install tailscale package
