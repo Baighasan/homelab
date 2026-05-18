@@ -1,0 +1,26 @@
+- name: Bootstrap homelab laptops
+  hosts: laptops
+  gather_facts: true
+  become: true
+  serial: 1
+
+  pre_tasks:
+    - name: Preflight | Require Ubuntu
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.distribution == "Ubuntu"
+        fail_msg: "This bootstrap playbook supports Ubuntu only."
+    - name: Preflight | Require Ubuntu 24.04
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.distribution_version is version('24.04', '==')
+        fail_msg: "Expected Ubuntu 24.04"
+      tags: [always]
+
+  roles:
+    - role: system
+      tags: [system]
+    - role: networking
+      tags: [networking]
+    - role: security
+      tags: [security]

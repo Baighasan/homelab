@@ -1,0 +1,12 @@
+- name: Converge homelab laptops
+  hosts: laptops
+  gather_facts: true
+  become: true
+
+  roles:
+    - role: system
+      tags: [system]
+    - role: networking
+      tags: [networking]
+    - role: security
+      tags: [security]
