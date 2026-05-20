@@ -79,7 +79,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 
@@ -125,5 +125,16 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Aliases
-alias ls="eza --icons=always"
+# Keep forwarded SSH agent usable across tmux reattaches.
+_ssh_auth_sock="$HOME/.ssh/ssh_auth_sock"
+if [[ -n "${SSH_AUTH_SOCK:-}" && "$SSH_AUTH_SOCK" != "$_ssh_auth_sock" && -S "$SSH_AUTH_SOCK" ]]; then
+  ln -sfn "$SSH_AUTH_SOCK" "$_ssh_auth_sock"
+fi
+if [[ -S "$_ssh_auth_sock" ]]; then
+  export SSH_AUTH_SOCK="$_ssh_auth_sock"
+fi
+if [[ -n "${TMUX:-}" && -n "${SSH_AUTH_SOCK:-}" ]] && command -v tmux >/dev/null 2>&1; then
+  tmux set-environment -g SSH_AUTH_SOCK "$SSH_AUTH_SOCK" >/dev/null 2>&1
+fi
+unset _ssh_auth_sock
+
