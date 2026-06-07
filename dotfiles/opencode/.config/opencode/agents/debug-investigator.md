@@ -1,7 +1,7 @@
 ---
 description: Root-cause investigation agent. Run this when tests fail, bugs appear, or behaviour differs from the expected design. It diagnoses before fixing: builds a hypothesis tree, ranks likely causes, and recommends the smallest next diagnostic step. Read-only — reports only, never edits.
 mode: subagent
-model: opencode/kimi-k2-6
+model: opencode-go/kimi-k2-6
 temperature: 0.1
 steps: 30
 color: warning

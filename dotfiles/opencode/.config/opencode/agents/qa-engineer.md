@@ -1,7 +1,7 @@
 ---
 description: Writes unit and integration tests after implementation is complete. Invoke with function signatures, a behaviour spec, or a file path. Works without supervision — runs to completion and reports what it produced.
 mode: subagent
-model: opencode/minimax-m2-7
+model: opencode-go/minimax-m2-7
 temperature: 0.2
 steps: 40
 color: success

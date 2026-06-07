@@ -138,3 +138,5 @@ if [[ -n "${TMUX:-}" && -n "${SSH_AUTH_SOCK:-}" ]] && command -v tmux >/dev/null
 fi
 unset _ssh_auth_sock
 
+
+. "$HOME/.local/bin/env"

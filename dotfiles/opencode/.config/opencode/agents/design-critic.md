@@ -1,7 +1,7 @@
 ---
 description: Adversarial design reviewer. Run this after an initial architecture or implementation plan is drafted, before coding begins. It attacks the plan for overengineering, hidden coupling, unclear boundaries, migration risk, and missing edge cases. Read-only — reports only, never edits.
 mode: subagent
-model: opencode/deepseek-v4-flash
+model: opencode-go/deepseek-v4-flash
 temperature: 0.1
 steps: 25
 color: warning

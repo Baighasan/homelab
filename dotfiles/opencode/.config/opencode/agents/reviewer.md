@@ -1,7 +1,7 @@
 ---
 description: Pre-commit reviewer. Give it your changed files and the original spec or plan. It checks for divergence, obvious bugs, and things the planning agent intended but that are missing. Read-only — reports only, never edits.
 mode: subagent
-model: opencode/kimi-k2-6
+model: opencode-go/kimi-k2.6
 temperature: 0.1
 steps: 20
 color: warning

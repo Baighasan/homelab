@@ -1,7 +1,7 @@
 ---
 description: Structured read-only codebase brief for planning sessions. Use instead of built-in explore when the goal is not just finding files, but producing a planner-ready summary of entry points, data flow, dependencies, gotchas, recent history, and coverage gaps.
 mode: subagent
-model: opencode/qwen3-6-plus
+model: opencode-go/qwen3-6-plus
 temperature: 0.1
 steps: 25
 color: info
